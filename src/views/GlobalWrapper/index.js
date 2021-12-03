@@ -3,6 +3,8 @@ import React from 'react'
 import { Box, Container, Card } from '@mui/material';
 
 import Navbar from '../../components/Navbar';
+import Homepage from "../Homepage";
+import Login from "../Login";
 
 /**
  * GlobalWrapper
@@ -16,9 +18,9 @@ function GlobalWrapper(props) {
         <Container maxWidth="lg">
             <Box sx={{ flexGrow: 1 }}>
                 <Navbar />
-                <Card elevation={2} >
-                    {children}
-                </Card>
+                {children}
+                <Homepage />
+                <Login />
             </Box>
         </Container>
     )
