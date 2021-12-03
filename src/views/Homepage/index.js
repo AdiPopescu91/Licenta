@@ -1,28 +1,17 @@
-import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
-// import { injectIntl, intlShape } from 'react-intl';
-
-
-
-import { withStyles } from '@material-ui/core';
-
-
+import React from 'react'
 
 
 /**
- * index
+ * Homepage
  */
-function Homepage(props) {
-    const { classes } = props;
-
+function Homepage() {
 
 
     return (
-        <div className={classes.index}>
+        <div>
             Hello world!
         </div>
     )
-
 
 
 }
