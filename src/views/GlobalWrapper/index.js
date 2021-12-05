@@ -1,14 +1,11 @@
 import React from 'react'
 
-import { Box, Container, Card } from '@mui/material';
+import { Box, Container } from '@mui/material';
 
 import Navbar from '../../components/Navbar';
 import Homepage from "../Homepage";
 import Login from "../Login";
 
-/**
- * GlobalWrapper
- */
 function GlobalWrapper(props) {
     const { children } = props;
     console.log('children', children);

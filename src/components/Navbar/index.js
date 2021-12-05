@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@mui/styles';
+import { Link } from "react-router-dom";
 
 import {
     Container,
@@ -10,45 +11,22 @@ import {
     IconButton,
     Tooltip,
     Avatar,
-    Button
 } from '@mui/material'
 
 import { Menu } from '@mui/icons-material'
 
-import CustomButton from '../Button'
-
-const useStyles = makeStyles({
-    toolbarCustom: {
-        backgroundColor: 'red',
-    },
-    h6Custom: {
-        color: 'blue',
-    },
-    h6_2_new: {
-        backgroundColor: 'blue',
-    }
-})
+const useStyles = makeStyles({})
 
 function Navbar() {
-    const classes = useStyles();
-    console.log(classes);
+    useStyles();
+    const handleOpenUserMenu = () => {}
 
-    const handleCloseNavMenu = () => {
-
-    };
-    const handleOpenUserMenu = () => {
-
-    }
-
-    const customClass = { h6: classes.h6Custom };
-    return <AppBar classes={{root: classes.toolbarCustom}}>
+    return <AppBar variant="elevation" elevation={2}>
         <Container maxWidth="xl">
-            <CustomButton className={classes.h6_2_new}/>
             <Toolbar disableGutters  >
                 <Typography
                     variant="h6"
                     noWrap
-                    className={customClass}
                     component="div"
                     sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
                 >
@@ -76,18 +54,9 @@ function Navbar() {
                     LOGO
                 </Typography>
                 <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                    <Button
-                        onClick={handleCloseNavMenu}
-                        sx={{ my: 2, color: 'white', display: 'block' }}
-                    >
-                        Home
-                    </Button>
-                    <Button
-                        onClick={handleCloseNavMenu}
-                        sx={{ my: 2, color: 'white', display: 'block' }}
-                    >
-                        Products
-                    </Button>
+
+                    <Link to='/home' >Home</Link>
+                    <Link to='/products' >Products</Link>
                 </Box>
 
                 <Box sx={{ flexGrow: 0 }}>
