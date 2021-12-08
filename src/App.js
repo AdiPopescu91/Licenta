@@ -1,12 +1,29 @@
-import React from 'react';
+import {
+    BrowserRouter,
+    Routes,
+    Route,
+} from "react-router-dom";
 
-import GlobalWrapper from './views/GlobalWrapper'
+import Login from './views/Login';
+import Homepage from './views/Homepage';
+import NotFound from './views/NotFound';
+import CreateAccount from "./views/CreateAccount";
+import ForgotPassword from "./views/ForgotPassword";
+import Game from"./views/Game";
+
 
 function App() {
     return (
-        <GlobalWrapper >
-            Hello world!
-        </GlobalWrapper>
+        <BrowserRouter>
+            <Routes>
+                <Route exact path="/" element={<Homepage />} />
+                <Route path="login" element={<Login />} />
+                <Route path="create-account" element={<CreateAccount />} />
+                <Route path="forgot-password" element={<ForgotPassword/>} />
+                <Route path="game" element={<Game/>} />
+                <Route path="*" element={<NotFound />} />
+            </Routes>
+        </BrowserRouter>
     );
 }
 
