@@ -1,29 +1,11 @@
 import React, { useState} from 'react'
-import {Box, TextField, Button, Avatar, Typography, Container, FormControlLabel, Grid, Link, Checkbox}  from '@mui/material';
+import {Box, TextField, Button, Avatar, Typography, Container, FormControlLabel, Grid, Checkbox}  from '@mui/material';
+import {Link} from 'react-router-dom'
 
-const person = [
-    {
-        id: 1,
-        name: 'Test',
-        email: 'test@test.com'
-    },
-    {
-        id: 2,
-        name: 'Test2',
-        email: 'test2@test.com2'
-    }
-]
 function Login() {
     const [values, setValues] = useState({});
-    const [persons, setPersons] = useState(person)
-    const [error, setError] = useState({})
-
-    console.log('persons', persons)
 
     const handleSubmit = () => {
-        localStorage.setItem('myCat', 'Tom');
-        sessionStorage.setItem('person', 'Jerry')
-        alert(localStorage.getItem('myCat'))
 
     }
     const handleChange = (type) => (event) => {
@@ -89,12 +71,12 @@ function Login() {
                     </Button>
                     <Grid container>
                         <Grid item xs>
-                            <Link href="http://localhost:3000/ForgotPassword" variant="body2">
+                            <Link to="/forgot-password" variant="body2">
                                 Forgot password?
                             </Link>
                         </Grid>
                         <Grid item>
-                            <Link href="http://localhost:3000/CreateAccount" variant="body2">
+                            <Link to="/create-account" variant="body2">
                                 Don't have an account? Sign Up
                             </Link>
                         </Grid>
