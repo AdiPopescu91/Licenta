@@ -1,12 +1,15 @@
 import React from 'react'
-
-import CreateMap from "../../components/Map";
-
+import Canvas from '../Canvas'
 
 function Game(){
+    const draw=(ctx)=>{
+            ctx.beginPath()
+            ctx.fillStyle = '#FF0000'
+            ctx.fillRect(0,0,100,60);}
 
-return (
-CreateMap
-)
+    return (
+    <Canvas draw={draw}/>
+    )
+
 }
 export default Game;
