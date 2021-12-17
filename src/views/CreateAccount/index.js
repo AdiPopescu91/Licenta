@@ -1,107 +1,103 @@
 import React , { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
+    createUserWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail
+} from 'firebase/auth'
+import { auth } from '../../Config/FirebaseConfig';
+import {
     Box,
     Button,
-    Container,
+    Container, Divider,
     Grid,
     TextField,
     Typography
 } from '@mui/material';
 
+
+
 function CreateAccount() {
-    const [user, setUserData] = useState({});
-    const handleSubmit = other=> {
-        localStorage.setItem('user',JSON.stringify({
-            email:other.target.email.value
-        }));
-        other.preventDefault();
+    const [user, setUser] = useState(null);
+    const [loginObj, setLoginObj] = useState({});
+    const [userCreateObj, setUserCreateObj] = useState({});
 
+    onAuthStateChanged(auth, (currentUser) => {
+        setUser(currentUser);
+    });
 
-        console.log('AUTH', user)
-
+    const handleLogout = () => {
+        signOut(auth);
     }
-    const handleChange = type => event => {
-        setUserData({
-            ...user,
-            [type]: event.target.value,
+
+    const handleCreateChange = type => event => {
+        setUserCreateObj({
+            ...userCreateObj,
+            [type]: event.target.value
         })
+
     }
+    const handleCreateClick = async () => {
+
+        const { email, password } = userCreateObj;
+        try {
+            const createdUser =  await createUserWithEmailAndPassword(auth, email, password)
+            console.log(createdUser);
+        } catch (errors) {
+
+            console.log(errors.message);
+
+        }
+    }
+
     return(
-        <Container component="main" maxWidth="xs">
-            <Box
-                sx={{
-                    marginTop: 8,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}>
-                <Typography component="h1" variant="h5">
-                    Create Account
-                </Typography>
-                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="user_name"
-                        label="User name"
-                        name="user_name"
-                        autoComplete="user_name"
-                        autoFocus
-                        onChange={handleChange('user_name')}
-                    />
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="fist_name"
-                        label="First name"
-                        name="first_name"
-                        autoComplete="first_name"
-                        autoFocus
-                        onChange={handleChange('first_name')}
-                    />
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="new-password"
-                        onChange={handleChange('password')}
-                    />
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="confirm_password"
-                        label="Confirm Password"
-                        type="password"
-                        id="confirm_password"
-                        autoComplete="new-password"
-                        onChange={handleChange('confirm_password')}
-                    />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                    >
-                        Sign In
-                    </Button>
-                    <Grid container>
-                        <Grid item xs>
-                            <Link to="/login">
-                                Already have account!
-                            </Link>
-                        </Grid>
-                    </Grid>
-                </Box>
-            </Box>
-        </Container>
+    <Container maxWidth="lg">
+        <Box sx={{ margin: 10 }}>
+            <Typography variant="h4">Create Account</Typography>
+            <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                onChange={handleCreateChange('email')}
+            />
+            <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={handleCreateChange('password')}
+            />
+            <Button onClick={handleCreateClick}>Create account</Button>
+            <Typography>{}</Typography>
+        </Box> <Box
+        sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+        }}>
+        <Grid container>
+
+            <Grid item xs>
+                <Link to="/login">
+                    Already have account!
+                </Link>
+            </Grid>
+        </Grid>
+    </Box>
+
+    </Container>
     )
 }
 

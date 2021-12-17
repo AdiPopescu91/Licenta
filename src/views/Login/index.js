@@ -1,88 +1,108 @@
 import React, { useState} from 'react'
-import {Box, TextField, Button, Avatar, Typography, Container, FormControlLabel, Grid, Checkbox}  from '@mui/material';
+import {
+    Box,
+    TextField,
+    Button,
+    Avatar,
+    Typography,
+    Container,
+    FormControlLabel,
+    Grid,
+    Checkbox,
+    Divider
+} from '@mui/material';
 import {Link} from 'react-router-dom'
+import {createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut} from "firebase/auth";
+import {auth} from "../../Config/FirebaseConfig";
+
 
 function Login() {
-    const [values, setValues] = useState({});
+    const [user, setUser] = useState(null);
+    const [loginObj, setLoginObj] = useState({});
+    const [userCreateObj, setUserCreateObj] = useState({});
 
-    const handleSubmit = () => {
-
-    }
-    const handleChange = (type) => (event) => {
-        const data = {
-            ...values,
+    const handleLoginChange = type => event => {
+        setLoginObj({
+            ...loginObj,
             [type]: event.target.value
-
+        })
+    }
+    const handleLoginClick = async () => {
+        const { email, password } = loginObj;
+        try {
+            const createdUser =  await signInWithEmailAndPassword(auth, email, password)
+            console.log(createdUser);
+        } catch (errors) {
+            console.log(errors.message);
         }
-        return setValues(data)
+    }
+
+    onAuthStateChanged(auth, (currentUser) => {
+        setUser(currentUser);
+    });
+
+    const handleLogout = () => {
+        signOut(auth);
     }
 
     return (
-        <Container component="main" maxWidth="xs">
-            <Box
-                sx={{
-                    marginTop: 8,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}>
-                <Avatar
-                    sx={{ m: 1, bgcolor: 'secondary.main',  width: 56, height: 56 }}
-                    alt="Remy Sharp"
-                    src="/static/images/avatar/2.jpg"
-                />
-                <Typography component="h1" variant="h5">
-                    Sign in
-                </Typography>
-                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
-                        autoFocus
-                        onChange={handleChange('email')}
-                    />
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                        onChange={handleChange('password')}
-                    />
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
-                    />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                    >
-                        Sign In
-                    </Button>
-                    <Grid container>
-                        <Grid item xs>
-                            <Link to="/forgot-password" variant="body2">
-                                Forgot password?
-                            </Link>
-                        </Grid>
-                        <Grid item>
-                            <Link to="/create-account" variant="body2">
-                                Don't have an account? Sign Up
-                            </Link>
-                        </Grid>
-                    </Grid>
-                </Box>
+        <Container maxWidth="lg">
+            <Box sx={{ margin: 10 }}>
+
+                <Typography>{}</Typography>
             </Box>
+
+            <Box sx={{ margin: 10 }}>
+                <Typography variant="h4">Login</Typography>
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                    autoFocus
+                    onChange={handleLoginChange('email')}
+                />
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    onChange={handleLoginChange('password')}
+                />
+                <Button onClick={handleLoginClick}>Login</Button>
+            </Box>
+            <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+        />
+            <Grid container>
+                <Grid item xs>
+                    <Link to="/forgot-password" variant="body2">
+                        Forgot password?
+                    </Link>
+                </Grid>
+                <Grid item>
+                    <Link to="/create-account" variant="body2">
+                        Don't have an account? Sign Up
+                    </Link>
+                </Grid>
+            </Grid>
+            <Divider />
+            <Box sx={{ margin: 10 }}>
+                Auth user: {user?.email}
+
+                <Button onClick={handleLogout}>
+                    Log out
+                </Button>
+            </Box>
+
         </Container>
     )
 }

@@ -1,31 +1,26 @@
-import React from 'react'
+import React, {useState} from 'react'
+import {onAuthStateChanged} from 'firebase/auth';
 
-import { Box, Container } from '@mui/material';
+import { auth } from '../../Config/FirebaseConfig';
 
-import Navbar from '../../components/Navbar';
-import Homepage from "../Homepage";
-import Login from "../Login";
+import { UserContext} from '../../context/UserContext'
+
 
 function GlobalWrapper(props) {
     const { children } = props;
-    console.log('children', children);
-    console.log('props', props);
+    const [authUser, setAuthUser ] = useState(null)
+    onAuthStateChanged(auth, (currentUser) => {
+        return setAuthUser(currentUser);
+    })
 
     return (
-        <Container maxWidth="lg">
-            <Box sx={{ flexGrow: 1 }}>
-                <Navbar />
-                {children}
-                <Homepage />
-                <Login />
-            </Box>
-        </Container>
+        <>
+                <UserContext.Provider value={authUser}>
+                    {children}
+                </UserContext.Provider>
+        </>
     )
 
 }
-
-GlobalWrapper.defaultProps = {
-    classes: {},
-};
 
 export default GlobalWrapper;
