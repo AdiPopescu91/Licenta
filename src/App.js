@@ -15,10 +15,7 @@ import Product from './views/Product';
 import Game from"./views/Game";
 import GlobalWrapper from "./views/GlobalWrapper";
 import { Provider } from "react-redux";
-import { store } from './Store/store';
-import Redux from "./views/Redux";
-import ReduxTest from "./views/ReduxTest";
-
+import { store } from './store/store';
 
 function App() {
     return (

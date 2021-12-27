@@ -1,10 +1,10 @@
 import React from 'react'
-import {firebaseGetProducts} from "../../Services/FirebaseServices/firebaseServices";
+import {firebaseGetProducts} from "../../services/firebaseServices";
 
 
 function Homepage() {
 
-    
+    console.log('homepage')
 
     return (
         <div>

@@ -1,16 +1,14 @@
-import {SET_EMAIL} from "./constans";
-const initialState={email:"adipope91@yahoo.com"}
+import { SET_EMAIL } from "./constans";
+const initialState={ email: ''}
 
 const reduxTestReducer = (state = initialState, action) => {
-    console.log("Reducer",action)
-    switch(action.type)
-    {
+    switch(action.type) {
         case SET_EMAIL:
-            return{
+            return {
                 email:action.email
             }
         default:
-            return initialState
+            return state
     }
 }
 export default reduxTestReducer;

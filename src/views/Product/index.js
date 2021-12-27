@@ -11,7 +11,7 @@ import {useParams, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 
 import mockData from '../Products/mockData';
-import {database} from "../../Config/FirebaseConfig";
+import {database} from "../../config/firebaseConfig";
 
 
 const useStyles = makeStyles({

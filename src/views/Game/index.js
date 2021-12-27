@@ -1,65 +1,96 @@
-import React, {useContext, useEffect, useState} from 'react'
-import Canvas from '../Canvas'
-import {Container} from "@material-ui/core";
-import {UserContext} from'../../context/UserContext';
+import React, { useEffect, useState } from 'react'
+// import Canvas from '../Canvas'
+import { Container } from "@material-ui/core";
+
 import brick20 from '../../assets/brick20.jpg'
 import road20 from "../../assets/road20.jpg"
 import KeyEvents from './KeyEvents'
-function Game(){
 
-    const[playerXY,setPlayerXY] =useState({
+function Game(){
+    const [ playerXY,setPlayerXY ] = useState({
             x: 0,
             y: 0,
         }
     )
+    useEffect(() => {
+        return () => {
+            console.log('unmount')
+        }
+    }, [])
 
-    const usePlayer=useContext(UserContext)
 
-                 let brick=new Image();
-                 brick.src=brick20
-            let road=new Image();
-            road.src=road20
 
-    const draw=(ctx)=> {
-        ctx.beginPath()
-       ctx.drawImage(road,0, 0, 100, 60)
-        let m = [[0, 1, 0, 0, 2],
-            [0, 1, 1, 0, 0],
-            [0, 0, 0, 0, 0],]
-        for (let i = 0; i < m.length; i++)
-            for (let j = 0; j < m[i].length; j++) {
-                if (m[i][j] === 1) {
-                    ctx.beginPath();
-                    ctx.drawImage(brick,j * 20, i * 20, 20, 20)
-                }
-                if(m[i][j] === 2)
-                {
-                    ctx.beginPath();
-                    ctx.fillStyle = "#24e011";
-                    ctx.fillRect(j * 20, i * 20, 20, 20);
-                }
-            }
-        drawPlayer(playerXY.x,playerXY.y);
-        function drawPlayer(x,y) {
-            ctx.beginPath();
-            ctx.fillStyle = "#FF0000";
-            ctx.fillRect(x,y, 20, 20);
-            console.log(x,y);
+     let brick = new Image();
+     brick.src = brick20
+    let road = new Image();
+    road.src = road20;
+
+
+    // const draw=(ctx)=> {
+    //    ctx.beginPath()
+    //    ctx.drawImage(road,0, 0, 100, 60)
+    //     let m = [[0, 1, 0, 0, 2],
+    //         [0, 1, 1, 0, 0],
+    //         [0, 0, 0, 0, 0],]
+    //     for (let i = 0; i < m.length; i++)
+    //         for (let j = 0; j < m[i].length; j++) {
+    //             if (m[i][j] === 1) {
+    //                 ctx.beginPath();
+    //                 ctx.drawImage(brick,j * 20, i * 20, 20, 20)
+    //             }
+    //             if(m[i][j] === 2)
+    //             {
+    //                 ctx.beginPath();
+    //                 ctx.fillStyle = "#24e011";
+    //                 ctx.fillRect(j * 20, i * 20, 20, 20);
+    //             }
+    //         }
+    //         const drawPlayer = (x,y) => {
+    //             ctx.beginPath();
+    //             ctx.fillStyle = "#FF0000";
+    //             ctx.fillRect(x,y, 20, 20);
+    //         }
+    //     // drawPlayer(playerXY.x,playerXY.y);
+    //
+    //
+    // }
+    console.log(playerXY);
+    const handlePlayerXYChange = (keyCode) => {
+        debugger;
+        switch (keyCode) {
+            case 40:
+                setPlayerXY({
+                    ...playerXY,
+                    y: playerXY.y + 20,
+                })
+                break;
+            case 38:
+                debugger
+                setPlayerXY({
+                    ...playerXY,
+                    y: playerXY.y - 20,
+                })
+                break;
+            case 37:
+                setPlayerXY({
+                    ...playerXY,
+                    x: playerXY.x - 20,
+                })
+                break;
+            case 39:
+                setPlayerXY({
+                    ...playerXY,
+                    x: playerXY.x + 20,
+                })
+                break;
+            default:
+                break;
         }
     }
-function handleCoordonateChange(params){
-            setPlayerXY({
-                ...playerXY,
-                ...params,
-            })
-    }
-
-console.log(playerXY)
     return (
         <Container>
-            <KeyEvents onPositionChange={handleCoordonateChange} position={playerXY}/>
-            <Canvas draw={draw}/>
-
+            <KeyEvents onPositionChange ={handlePlayerXYChange}/>
+           {/* <Canvas draw={draw}/>*/}
         </Container>
 
     )
