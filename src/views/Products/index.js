@@ -9,11 +9,12 @@ import {
 import MediaCard from './components/MediaCard';
 import getData from "../utils/fetchMethod";
 
-/**
- * Homepage
- */
+
+
 function Products(props) {
     const [posts, setPosts] = useState([]);
+
+
 
     useEffect(() => {
         let mounted = true;
