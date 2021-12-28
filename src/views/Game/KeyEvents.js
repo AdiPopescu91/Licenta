@@ -1,46 +1,23 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
+
+const ALLOWED_KEYS = [37,38,39,40];
 
 function KeyEvents(props) {
-   const { onPositionChange,position }=props;
-   console.log(position)
-    const handleKeyDown=event=>{
-        console.log(typeof event.keyCode)
-        switch (event.keyCode) {
-            case 40:
-               onPositionChange({
-                    ...position,
-                    y:position.y+20,
-                })
-                break;
-            case 38:
-                debugger
-                onPositionChange({
-                    ...position,
-                    y:position.y-20,
-                })
-                break;
-            case 37:
-                onPositionChange({
-                    ...position,
-                    x:position.x-20,
-                })
-                break;
-            case 39:
-                onPositionChange({
-                    ...position,
-                    x:position.x+20,
-                })
-                break;
-            default:
-
+    const { setPressedKeys } = props;
+    const onKeyDown = ({keyCode}) => {
+        if (ALLOWED_KEYS.includes(keyCode)) {
+            setPressedKeys(keyCode);
         }
     }
+    useEffect(() => {
 
-    useEffect(()=>{
-        document.addEventListener('keydown',handleKeyDown);
-        return ()=>document.removeEventListener('keydown',handleKeyDown);
-    },[])
+        document.addEventListener('keydown', onKeyDown);
 
-    return null
+        return () => {
+            document.removeEventListener('keydown', onKeyDown);
+        }
+    }, [setPressedKeys]);
+
+    return <div />;
 }
  export default KeyEvents

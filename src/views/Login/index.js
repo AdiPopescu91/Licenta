@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import {Link} from 'react-router-dom'
 import {createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut} from "firebase/auth";
-import {auth} from "../../Config/FirebaseConfig";
+import {auth} from "../../config/firebaseConfig";
 
 
 function Login() {

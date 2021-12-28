@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {onAuthStateChanged} from 'firebase/auth';
 
-import { auth } from '../../Config/FirebaseConfig';
+import { auth } from '../../config/firebaseConfig';
 
 import { UserContext} from '../../context/UserContext'
 
@@ -13,12 +13,12 @@ function GlobalWrapper(props) {
         return setAuthUser(currentUser);
     })
 
+    console.log('GlobalWrapper');
+
     return (
-        <>
-                <UserContext.Provider value={authUser}>
-                    {children}
-                </UserContext.Provider>
-        </>
+        <UserContext.Provider value={authUser}>
+            {children}
+        </UserContext.Provider>
     )
 
 }

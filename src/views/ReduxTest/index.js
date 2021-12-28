@@ -8,7 +8,6 @@ function ReduxTest(props) {
 
     useEffect(()=>{
             props.dispatchCreateEmail("blabla@yahoo.com")
-
         },[]
     )
     const handleEmailChange = (event) =>{
@@ -32,7 +31,6 @@ function ReduxTest(props) {
 
 
 const mapStateToProps = state => {
-console.log('ReduxTest',state)
     return {
         create: state.create
     }

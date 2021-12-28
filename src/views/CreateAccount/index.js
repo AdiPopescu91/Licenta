@@ -7,7 +7,7 @@ import {
     signInWithEmailAndPassword,
     sendPasswordResetEmail
 } from 'firebase/auth'
-import { auth } from '../../Config/FirebaseConfig';
+import { auth } from '../../config/firebaseConfig';
 import {
     Box,
     Button,
