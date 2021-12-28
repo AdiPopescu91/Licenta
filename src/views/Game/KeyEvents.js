@@ -1,16 +1,23 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
+
+const ALLOWED_KEYS = [37,38,39,40];
 
 function KeyEvents(props) {
-   const { onPositionChange }=props;
-    const handleKeyDown=event=>{
-        onPositionChange(event.keyCode)
+    const { setPressedKeys } = props;
+    const onKeyDown = ({keyCode}) => {
+        if (ALLOWED_KEYS.includes(keyCode)) {
+            setPressedKeys(keyCode);
+        }
     }
+    useEffect(() => {
 
-    useEffect(()=>{
-        document.addEventListener('keydown',handleKeyDown);
-        return ()=> document.removeEventListener('keydown',handleKeyDown);
-    },[])
+        document.addEventListener('keydown', onKeyDown);
 
-    return null
+        return () => {
+            document.removeEventListener('keydown', onKeyDown);
+        }
+    }, [setPressedKeys]);
+
+    return <div />;
 }
  export default KeyEvents

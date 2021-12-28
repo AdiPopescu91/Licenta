@@ -16,11 +16,9 @@ function GlobalWrapper(props) {
     console.log('GlobalWrapper');
 
     return (
-        <>
-                <UserContext.Provider value={authUser}>
-                    {children}
-                </UserContext.Provider>
-        </>
+        <UserContext.Provider value={authUser}>
+            {children}
+        </UserContext.Provider>
     )
 
 }
