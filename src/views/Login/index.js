@@ -1,27 +1,65 @@
 import React, { useState} from 'react'
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
 import {
     Box,
+    Input,
     TextField,
     Button,
-    Avatar,
     Typography,
     Container,
     FormControlLabel,
     Grid,
     Checkbox,
-    Divider
 } from '@mui/material';
-import {Link} from 'react-router-dom'
-import {createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut} from "firebase/auth";
-import {auth} from "../../config/firebaseConfig";
+import { makeStyles } from '@mui/styles';
+
+import bgImage from '../../assets/game_of_thrones_53632900.jpg'
+import sprite_new from '../../assets/sprite_new.png'
+
+import { auth } from "../../config/firebaseConfig";
+
+const useStyles = makeStyles((theme) => ({
+      loginBackground: {
+          display: 'flex',
+          flex: 'auto',
+          background: `#000000 url(${bgImage}) no-repeat center center fixed`,
+      },
+      footerBox: {
+          backgroundColor: 'red',
+      },
+      labelTextField: {
+          color: '#fbe8bf'
+      },
+      rootTextField: {
+          marginTop:16,
+          padding: 16,
+          '&.MuiOutlinedInput-root': {
+              background: '#33444C',
+              border: '2px solid #697DA6',
+              color: 'white',
+          }
+      },
+      loginButton: {
+        '&.MuiButton-root': {
+          marginTop: 20,
+          width: 270,
+          height: 70,
+          lineHeight: 70,
+          color: '#fdf8d8',
+          background: `url(${sprite_new}) no-repeat -8px -384px`,
+        }
+
+      }
+  }
+));
 
 
 function Login() {
-    const [user, setUser] = useState(null);
-    const navigate=useNavigate();
-    const [loginObj, setLoginObj] = useState({});
-    const [userCreateObj, setUserCreateObj] = useState({});
+    const navigate = useNavigate();
+    const classes = useStyles();
+    const [ loginObj, setLoginObj ] = useState({});
 
     const handleLoginChange = type => event => {
         setLoginObj({
@@ -29,6 +67,7 @@ function Login() {
             [type]: event.target.value
         })
     }
+
     const handleLoginClick = async () => {
         const { email, password } = loginObj;
         try {
@@ -40,46 +79,63 @@ function Login() {
         }
     }
 
-    onAuthStateChanged(auth, (currentUser) => {
-        setUser(currentUser);
-    });
-
-    const handleLogout = () => {
-        signOut(auth);
-    }
 
     return (
+      <div className={classes.loginBackground}>
         <Container maxWidth="lg">
-            <Box sx={{ margin: 10 }}>
-
-                <Typography>{}</Typography>
-            </Box>
-
-            <Box sx={{ margin: 10 }}>
+            <Box sx={{
+              margin: 10,
+              marginLeft: 'auto',
+              maxWidth: 330,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center'
+            }}>
                 <Typography variant="h4">Login</Typography>
+                <Typography className={classes.labelTextField}>
+                    Sign to Maze
+                </Typography>
+              <TextField
+                required
+                id="outlined-required"
+                label="Required"
+                defaultValue="Hello World"
+                className={classes.rootTextField}
+              />
                 <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                    autoFocus
-                    onChange={handleLoginChange('email')}
+                  required
+                  id="email"
+                  name="email"
+                  type="text"
+                  fullWidth
+
+                  autoComplete="current-password"
+                  onChange={handleLoginChange('email')}
+                  classes={{
+                      root: classes.rootTextField
+                  }}
+
                 />
+                    <Typography className={classes.labelTextField} variant="caption" >
+                        Please enter a valid e-mail address
+                    </Typography>
+
                 <TextField
-                    margin="normal"
                     required
                     fullWidth
                     name="password"
-                    label="Password"
                     type="password"
                     id="password"
+                    classes={{
+                        root: classes.rootTextField
+                    }}
                     autoComplete="current-password"
                     onChange={handleLoginChange('password')}
                 />
-                <Button onClick={handleLoginClick}>Login</Button>
+                <Typography className={classes.labelTextField}>
+                    Please input your password
+                </Typography>
+                <Button onClick={handleLoginClick} classes={{root: classes.loginButton}}>Login</Button>
             </Box>
             <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -97,16 +153,11 @@ function Login() {
                     </Link>
                 </Grid>
             </Grid>
-            <Divider />
-            <Box sx={{ margin: 10 }}>
-                Auth user: {user?.email}
+            <Box className={classes.footerBox}>
 
-                <Button onClick={handleLogout}>
-                    Log out
-                </Button>
             </Box>
-
         </Container>
+      </div>
     )
 }
 export default Login;
