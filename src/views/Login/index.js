@@ -1,4 +1,5 @@
 import React, { useState} from 'react'
+import { useNavigate } from "react-router-dom"
 import {
     Box,
     TextField,
@@ -18,6 +19,7 @@ import {auth} from "../../config/firebaseConfig";
 
 function Login() {
     const [user, setUser] = useState(null);
+    const navigate=useNavigate();
     const [loginObj, setLoginObj] = useState({});
     const [userCreateObj, setUserCreateObj] = useState({});
 
@@ -30,10 +32,11 @@ function Login() {
     const handleLoginClick = async () => {
         const { email, password } = loginObj;
         try {
-            const createdUser =  await signInWithEmailAndPassword(auth, email, password)
-            console.log(createdUser);
+             await signInWithEmailAndPassword(auth, email, password)
+            navigate("../game", { replace: true });
+
         } catch (errors) {
-            console.log(errors.message);
+            alert(errors.message);
         }
     }
 
