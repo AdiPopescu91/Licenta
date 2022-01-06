@@ -30,16 +30,18 @@ const useStyles = makeStyles((theme) => ({
           backgroundColor: 'red',
       },
       labelTextField: {
-          color: '#fbe8bf'
+          color: '#fbe8bf',
+          '&.MuiButton-root': {
+              color: '#fbe8bf',
+              textTransform: 'none',
+          }
       },
       rootTextField: {
           marginTop:16,
           padding: 16,
-          '&.MuiOutlinedInput-root': {
-              background: '#33444C',
-              border: '2px solid #697DA6',
-              color: 'white',
-          }
+          background: '#33444C',
+          border: '2px solid #697DA6',
+          color: 'white',
       },
       loginButton: {
         '&.MuiButton-root': {
@@ -89,26 +91,21 @@ function Login() {
               maxWidth: 330,
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              alignItems: 'center',
             }}>
-                <Typography variant="h4">Login</Typography>
+                <Typography variant="h4" className={classes.labelTextField} gutterBottom>
+                    Login
+                </Typography>
                 <Typography className={classes.labelTextField}>
                     Sign to Maze
                 </Typography>
-              <TextField
-                required
-                id="outlined-required"
-                label="Required"
-                defaultValue="Hello World"
-                className={classes.rootTextField}
-              />
                 <TextField
                   required
                   id="email"
                   name="email"
                   type="text"
                   fullWidth
-
                   autoComplete="current-password"
                   onChange={handleLoginChange('email')}
                   classes={{
@@ -143,14 +140,14 @@ function Login() {
         />
             <Grid container>
                 <Grid item xs>
-                    <Link to="/forgot-password" variant="body2">
+                    <Button to="/forgot-password"  component={Link} className={classes.labelTextField}>
                         Forgot password?
-                    </Link>
+                    </Button>
                 </Grid>
                 <Grid item>
-                    <Link to="/create-account" variant="body2">
+                    <Button to="/create-account" component={Link} className={classes.labelTextField} >
                         Don't have an account? Sign Up
-                    </Link>
+                    </Button>
                 </Grid>
             </Grid>
             <Box className={classes.footerBox}>
