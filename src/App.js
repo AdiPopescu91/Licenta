@@ -15,6 +15,8 @@ import Game from"./views/Game";
 import GlobalWrapper from "./views/GlobalWrapper";
 import { Provider } from "react-redux";
 import { store } from './store/store';
+import StartGame from "./views/StartGame";
+import PrivateOutlet from "./views/PrivateOutlet";
 
 function App() {
     return (
@@ -23,13 +25,16 @@ function App() {
                 <GlobalWrapper>
                     <Routes>
                         <Route path="firebase" element={<Firebase />} />
-                        <Route exact path="/" element={<Homepage />} />
+                        <Route exact path="/home" element={<Homepage />} />
                         <Route path="login" element={<Login />} />
                         <Route path="create-account" element={<CreateAccount />} />
                         <Route path="forgot-password" element={<ForgotPassword/>} />
-                        <Route path="products" element={<Products />} />
-                        <Route path="game" element={<Game/>} />
-                        <Route path="*" element={<NotFound />} />
+
+                        <Route exact path="/" element={<PrivateOutlet />} >
+                            <Route path="game" element={<Game/>} />
+                            <Route path="start-game" element={<StartGame/>} />
+                            <Route path="*" element={<NotFound />} />
+                        </Route>
                     </Routes>
                 </GlobalWrapper>
             </BrowserRouter>
