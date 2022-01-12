@@ -4,9 +4,12 @@ import { Container} from "@material-ui/core";
 
 import brick20 from '../../assets/brick20.jpg'
 import road20 from "../../assets/road20.jpg"
+import tree from "../../assets/tree.png"
 import KeyEvents from './KeyEvents'
 import {Link} from 'react-router-dom'
 import {Grid} from "@mui/material";
+import { connect } from 'react-redux';
+import {setLoadedImagesCount} from './actions';
 
 
 const INITIAL_STATE_GAME={
@@ -23,24 +26,31 @@ const CANVAS_DIMENSION = {
 const IMAGES  = {
     brick20 : {
         url: brick20,
-        loaded: false
+        // TODO add width height
+        width: 20,
+        height: 20,
     },
     road20: {
         url: road20,
-        loaded: false
-
     },
+    tree : {
+        url: tree,
+    },
+
 }
 
-function Game(message){
+function Game(props){
 
-    const [loadedImages, setLoadedImages] = useState(0);
+    const { loadedImages, dispatchSetLoadedImagesCount } = props;
+
+    console.log(props);
+
     useEffect(() => {
 
         Object.keys(IMAGES).map((key) => {
             IMAGES[key].image = new Image();
-            IMAGES[key].image.onload = () => {
-                setLoadedImages(loadedImages + 1)
+            IMAGES[key].image.onload = (event) => {
+                dispatchSetLoadedImagesCount()
             };
             IMAGES[key].image.src = IMAGES[key].url
         })
@@ -101,14 +111,18 @@ function Game(message){
 
 
     const draw=(ctx)=> {
-       ctx.beginPath()
-       ctx.drawImage(IMAGES.road20.image,0, 0, CANVAS_DIMENSION.width, CANVAS_DIMENSION.height)
+        ctx.beginPath()
+       //  console.log(IMAGES.tree.image);
+
+        ctx.drawImage(IMAGES.road20.image,0, 0, CANVAS_DIMENSION.width, CANVAS_DIMENSION.height)
+
 
         for (let i = 0; i < map.length; i++)
             for (let j = 0; j < map[i].length; j++) {
                 if (map[i][j] === 1) {
                     ctx.beginPath();
                     ctx.drawImage(IMAGES.brick20.image, j * 20, i * 20, 20, 20)
+
                 }
                 if(map[i][j] === 2)
                 {
@@ -120,7 +134,8 @@ function Game(message){
             const drawPlayer = (x,y) => {
                 ctx.beginPath();
                 ctx.fillStyle = "#FF0000";
-                ctx.fillRect(x,y, 20, 20);
+               ctx.fillRect(x,y, 20, 20);
+                ctx.drawImage(IMAGES.tree.image,0,0, 600, 400)
             }
 
         drawPlayer(playerXY.x,playerXY.y);
@@ -149,7 +164,7 @@ function Game(message){
         }
     }
 
-    if(loadedImages < Object.keys(IMAGES).length -1) {
+    if(loadedImages < Object.keys(IMAGES).length) {
         return <div>Loading ...</div>
     }
     function refreshPage(){
@@ -177,4 +192,14 @@ function Game(message){
     )
 
 }
-export default Game;
+
+
+const mapStateToProps = state => {
+    return {
+        ...state.loadedImagesCount
+    }
+}
+const mapDispatchToProps = {
+    dispatchSetLoadedImagesCount: setLoadedImagesCount
+}
+export default connect(mapStateToProps , mapDispatchToProps)(Game);

@@ -1,11 +1,11 @@
-import {SET_NAME} from "./constans";
-const initialState={name:"Adrian"}
+import {LOADED_IMAGES_COUNT} from "./constans";
+const initialState={ loadedImages : 0 }
 
 const reduxReducer = (state = initialState, action) => {
     switch(action.type) {
-        case SET_NAME:
+        case LOADED_IMAGES_COUNT:
             return{
-                name:action.name
+                loadedImages: state.loadedImages + 1
             }
         default:
             return state
