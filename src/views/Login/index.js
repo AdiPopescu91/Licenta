@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
           width: 270,
           height: 70,
           lineHeight: 70,
+          overflow: 'hidden',
           color: '#fdf8d8',
           background: `url(${sprite_new}) no-repeat -8px -384px`,
         }
