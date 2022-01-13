@@ -15,7 +15,7 @@ function PrivateOutlet() {
     return (
         <>
             <Navbar/>
-            <div style={{height:80}} />
+            <div style={{height:63}} />
             <main>
             {userContext ? <Outlet/> : <Navigate to="/login" />}
             </main>

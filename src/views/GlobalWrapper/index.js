@@ -4,6 +4,7 @@ import {onAuthStateChanged} from 'firebase/auth';
 import { auth } from '../../config/firebaseConfig';
 
 import { UserContext} from '../../context/UserContext'
+import {CssBaseline} from "@mui/material";
 
 
 function GlobalWrapper(props) {
@@ -17,6 +18,7 @@ function GlobalWrapper(props) {
 
     return (
         <UserContext.Provider value={authUser}>
+            <CssBaseline />
             {children}
         </UserContext.Provider>
     )

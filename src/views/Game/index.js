@@ -1,15 +1,61 @@
 import React, {useEffect, useState} from 'react'
 import Canvas from '../Canvas'
 import { Container} from "@material-ui/core";
+import { makeStyles } from '@mui/styles';
 
 import brick20 from '../../assets/brick20.jpg'
 import road20 from "../../assets/road20.jpg"
 import tree from "../../assets/tree.png"
+import p1v1 from"../../assets/p1v1.png"
+import T2 from"../../assets/T2.png"
+import BackgroundGame from"../../assets/BackgroundGame.png"
 import KeyEvents from './KeyEvents'
 import {Link} from 'react-router-dom'
-import {Grid} from "@mui/material";
+import {Box, Button, Grid} from "@mui/material";
 import { connect } from 'react-redux';
 import {setLoadedImagesCount} from './actions';
+
+
+const useStyles = makeStyles((theme) => ({
+        gameBackground: {
+            display: 'flex',
+            flex: 'auto',
+            background: `#000000 url(${BackgroundGame}) no-repeat center center fixed`,
+        },
+        mainMenuButton: {
+            '&.MuiButton-root': {
+                background: '#437af0',
+                backgroundImage: 'linear-gradient(to bottom, #437af0, #313f7d)',
+                bordeRadius: '10',
+                textShadow: '1px 1px 1px #736173',
+                color: '#f3f2f7',
+
+                padding: '10 13 10 13',
+                textDecoration: 'none',
+            },
+            "&:hover": {
+                background: '#010b12',
+                textDecoration: 'none',
+            },
+        },
+
+        restartButton: {
+            '&.MuiButton-root': {
+                background: '#437af0',
+                backgroundImage: 'linear-gradient(to bottom, #437af0, #313f7d)',
+                  borderRadius: 10,
+                  textShadow: '1 1 1 #736173',
+                  color: '#f3f2f7',
+                  padding: '10 13 10 13',
+                  textDecoration: 'none',},
+                "&:hover": {
+                    background: '#010b12',
+                    textDecoration: 'none',
+            }
+        },
+    }
+));
+
 
 
 const INITIAL_STATE_GAME={
@@ -36,11 +82,19 @@ const IMAGES  = {
     tree : {
         url: tree,
     },
+    character1: {
+        url: p1v1,
+        width: 20,
+        height: 20,
+    },
+    throne1: {
+        url: T2,
+    },
 
 }
 
 function Game(props){
-
+    const classes = useStyles();
     const { loadedImages, dispatchSetLoadedImagesCount } = props;
 
     console.log(props);
@@ -99,7 +153,7 @@ function Game(props){
             })
         if(map[y/20][x/20]===2){
             setPlayerXY({
-               win:false,
+               win:true,
 
             })
             alert (playerXY.score);
@@ -127,14 +181,12 @@ function Game(props){
                 if(map[i][j] === 2)
                 {
                     ctx.beginPath();
-                    ctx.fillStyle = "#24e011";
-                    ctx.fillRect(j * 20, i * 20, 20, 20);
+                    ctx.drawImage(IMAGES. throne1.image,j*20,i*20,20,20);
                 }
             }
             const drawPlayer = (x,y) => {
                 ctx.beginPath();
-                ctx.fillStyle = "#FF0000";
-               ctx.fillRect(x,y, 20, 20);
+                ctx.drawImage(IMAGES. character1.image,x,y,20,20)
                 ctx.drawImage(IMAGES.tree.image,0,0, 600, 400)
             }
 
@@ -171,22 +223,28 @@ function Game(props){
        setPlayerXY(INITIAL_STATE_GAME);
     }
     return (
-        <Container>
+
+        <Container className={classes.gameBackground}>
+            <Box
+            sx={{
+                display: 'flex',
+                flexDirection:'column',
+                alignItems:'center'
+            }}>
             <KeyEvents setPressedKeys={handleKeyPress}/>
             <Grid container>
                 <Grid item xs>
-                    <button type="button" onClick={ refreshPage }> <span>Restart Game</span> </button>
+                    <Button type="button" onClick={ refreshPage } classes={{root: classes.restartButton}}> Restart Game </Button>
                 </Grid>
             </Grid>
             <Canvas draw={draw} width={CANVAS_DIMENSION.width} height={CANVAS_DIMENSION.height}/>
             <div>
-            <Link to="/start-game" variant="body2">
-                MAIN MENU
-            </Link>
+                <Button to="/start-game"  component={Link} classes={{root: classes.restartButton}}>
+                   Main Menu
+                </Button>
                 </div>
-            <div>
-                score: {playerXY.score}
-            </div>
+
+            </Box>
         </Container>
 
     )
