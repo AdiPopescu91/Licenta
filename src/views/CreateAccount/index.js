@@ -3,34 +3,31 @@ import { Link } from 'react-router-dom';
 import {
     createUserWithEmailAndPassword,
     onAuthStateChanged,
-    signOut,
-    signInWithEmailAndPassword,
-    sendPasswordResetEmail
 } from 'firebase/auth'
 import { auth } from '../../config/firebaseConfig';
 import {
     Box,
     Button,
-    Container, Divider,
+    Container,
     Grid,
     TextField,
     Typography
 } from '@mui/material';
+import {openSnackbar} from "../../components/SnackBar/actions";
+import {connect} from "react-redux";
+import {useNavigate} from 'react-router-dom';
 
 
 
-function CreateAccount() {
-    const [user, setUser] = useState(null);
-    const [loginObj, setLoginObj] = useState({});
+function CreateAccount(props) {
+    const {dispatchOpenSnackbar}=props;
+    const [user,setUser] = useState(null);
     const [userCreateObj, setUserCreateObj] = useState({});
+    let navigate = useNavigate();
 
     onAuthStateChanged(auth, (currentUser) => {
         setUser(currentUser);
     });
-
-    const handleLogout = () => {
-        signOut(auth);
-    }
 
     const handleCreateChange = type => event => {
         setUserCreateObj({
@@ -44,9 +41,10 @@ function CreateAccount() {
         const { email, password } = userCreateObj;
         try {
             const createdUser =  await createUserWithEmailAndPassword(auth, email, password)
-            console.log(createdUser);
+            navigate("/login");
         } catch (errors) {
 
+            dispatchOpenSnackbar('error' , errors.message)
             console.log(errors.message);
 
         }
@@ -101,4 +99,8 @@ function CreateAccount() {
     )
 }
 
-export default CreateAccount;
+const mapDispatchToProps= {
+    dispatchOpenSnackbar:openSnackbar
+}
+
+export default connect(null, mapDispatchToProps)(CreateAccount)

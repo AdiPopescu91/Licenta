@@ -1,6 +1,9 @@
 import React, { useState} from 'react'
 import { useNavigate, Link } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import UserLogged from "./UserLogged";
+import {connect} from "react-redux";
+import {openSnackbar} from "../../components/SnackBar/actions";
 
 import {
     Box,
@@ -59,8 +62,9 @@ const useStyles = makeStyles((theme) => ({
 ));
 
 
-function Login() {
-    const navigate = useNavigate();
+function Login(props) {
+    const {dispatchOpenSnackbar}=props;
+    let navigate = useNavigate();
     const classes = useStyles();
     const [ loginObj, setLoginObj ] = useState({});
 
@@ -78,7 +82,7 @@ function Login() {
             navigate("../game", { replace: true });
 
         } catch (errors) {
-            alert(errors.message);
+            dispatchOpenSnackbar('error' , errors.message)
         }
     }
 
@@ -158,4 +162,14 @@ function Login() {
       </div>
     )
 }
-export default Login;
+const mapStateToProps = state => {
+    return {
+        ...state.products,
+    };
+}
+
+const mapDispatchToProps= {
+    dispatchOpenSnackbar:openSnackbar
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

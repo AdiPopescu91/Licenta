@@ -1,6 +1,6 @@
 import React, {useContext} from "react"
 import {Outlet, Navigate} from "react-router-dom"
-import {UserContext} from "../../context/UserContext"
+import {UserContext} from "../../components/context/UserContext"
 import Navbar from "../../components/Navbar";
 
 function PrivateOutlet() {

@@ -8,7 +8,7 @@ import {
 import { makeStyles } from '@mui/styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useParams } from 'react-router-dom';
-import { UserContext } from '../../context/UserContext';
+import { UserContext } from '../../components/context/UserContext';
 
 import mockData from '../Products/mockData';
 
